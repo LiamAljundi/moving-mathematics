@@ -5,4 +5,18 @@ html, body {
   canvas {
     display: block;
   }
-  
+#control-menu{
+
+    min-width: 25%;
+    height: 100%;
+    padding: 1rem;
+}  
+
+h4{
+    display: inline-block;
+}
+
+h3{
+    text-transform: uppercase;
+}
+

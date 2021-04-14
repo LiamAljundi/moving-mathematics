@@ -19,21 +19,52 @@ let proxValue = 0;
 let gyroValue = [0, 0, 0];
 let acceValue = [0, 0, 0];
 
+let sensorArray = [
+  gyroValue[0],
+  gyroValue[1],
+  gyroValue[1],
+  acceValue[0],
+  acceValue[1],
+  acceValue[2],
+  proxValue,
+];
+
 let cnv;
-let controlMenuWidth = 150;
+let controlMenuWidth = 25 / 100;
 
 let shapeSelection = document.querySelector("#dropdown-3d");
 let selected3D = "box";
+
+let xRotationSelection = document.querySelector("#dropdown-xRotation");
+let yRotationSelection = document.querySelector("#dropdown-yRotation");
+let zRotationSelection = document.querySelector("#dropdown-zRotation");
+
+let xRotation = "auto";
+let yRotation = "auto";
+let zRotation = "auto";
 
 let shapes3D;
 
 shapeSelection.addEventListener("change", () => {
   selected3D = shapeSelection.options[shapeSelection.selectedIndex].value;
 });
+xRotationSelection.addEventListener("change", () => {
+  xRotation =
+    xRotationSelection.options[xRotationSelection.selectedIndex].value;
+});
+yRotationSelection.addEventListener("change", () => {
+  yRotation =
+    yRotationSelection.options[yRotationSelection.selectedIndex].value;
+});
+zRotationSelection.addEventListener("change", () => {
+  zRotation =
+    zRotationSelection.options[zRotationSelection.selectedIndex].value;
+});
 
 function handleCanvas() {
-  cnv = createCanvas(windowWidth - controlMenuWidth, windowHeight, WEBGL);
-  cnv.position(controlMenuWidth, 0);
+  let controlMenuSize = windowWidth * controlMenuWidth;
+  cnv = createCanvas(windowWidth - controlMenuSize, windowHeight, WEBGL);
+  cnv.position(controlMenuSize, 0);
 }
 
 function setup() {
@@ -53,15 +84,11 @@ function setup() {
 function draw() {
   background(250);
 
-  noStroke();
-
   normalMaterial();
-
   push();
-  angleMode(DEGREES);
 
+  shapes3D.rotate();
   shapes3D.select();
-
 
   pop();
 }
@@ -140,12 +167,33 @@ class Shapes3D {
     } else if (selected3D === "cone") {
       cone(this.radius, this.height);
     } else if (selected3D === "cylinder") {
-    cylinder(this.radius, this.height);
+      cylinder(this.radius, this.height);
     } else if (selected3D === "torus") {
-        torus(this.radius, this.radius/4);
+      torus(this.radius, this.radius / 4);
     }
   }
 
-  
-
+  rotate() {
+    if (xRotation === "auto") {
+      rotateX(frameCount * 0.01);
+    } else {
+        for (let i = 0; i < sensorArray.length; i++) {
+            rotateX(sensorArray[xRotation]);
+          }
+    }
+    if (yRotation === "auto") {
+      rotateY(frameCount * 0.01);
+    } else {
+      for (let i = 0; i < sensorArray.length; i++) {
+        rotateY(sensorArray[yRotation]);
+      }
+    }
+    if (zRotation === "auto") {
+      rotateZ(frameCount * 0.01);
+    } else {
+        for (let i = 0; i < sensorArray.length; i++) {
+            rotateZ(sensorArray[zRotation]);
+          }
+    }
+  }
 }
