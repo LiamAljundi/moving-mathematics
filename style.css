@@ -1,22 +1,39 @@
-html, body {
-    margin: 0;
-    padding: 0;
-  }
-  canvas {
-    display: block;
-  }
-#control-menu{
-
-    min-width: 25%;
-    height: 100%;
-    padding: 1rem;
-}  
-
-h4{
-    display: inline-block;
+html,
+body {
+  margin: 0;
+  padding: 0;
 }
 
-h3{
-    text-transform: uppercase;
+canvas {
+  display: block;
 }
 
+h4 {
+  display: inline-block;
+}
+
+h3 {
+  text-transform: uppercase;
+}
+
+#control-menu {
+
+  max-width: 23%;
+  height: 100vh;
+  padding: 1rem;
+
+
+
+  background-color: #FF9300;
+  color: white;
+}
+
+#connect button{
+  padding: 1%; 
+
+
+}
+
+.dropdown {
+  line-height: 10%;
+}
