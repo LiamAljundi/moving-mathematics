@@ -14,14 +14,16 @@ let acceCharacteristic;
 let proxCharacteristic;
 let rgbaCharacteristic;
 
-let gyroValue = [0, 0, 0];
-let acceValue = [0, 0, 0];
+let gyroValue = new Array(3);
+let acceValue = new Array(3);
 let proxValue = 0;
-let rgbaValue = [0, 0, 0, 0];
+let rgbaValue = new Array(4);
 
 let sensorArray = new Array(11);
 
 let cnv;
+let screenWidth;
+let screenHeight;
 let controlMenuWidth = 25 / 100;
 
 let shapes;
@@ -36,13 +38,21 @@ let xStretchSelection = document.querySelector("#dropdown-xStretch");
 let yStretchSelection = document.querySelector("#dropdown-yStretch");
 let zStretchSelection = document.querySelector("#dropdown-zStretch");
 
-let xRotationIndex = "default";
-let yRotationIndex = "default";
-let zRotationIndex = "default";
+let xTranslationSelection = document.querySelector("#dropdown-xTranslation");
+let yTranslationSelection = document.querySelector("#dropdown-yTranslation");
+let zTranslationSelection = document.querySelector("#dropdown-zTranslation");
+
+let xRotationIndex;
+let yRotationIndex;
+let zRotationIndex;
 
 let xStretchIndex;
 let yStretchIndex;
 let zStretchIndex;
+
+let xTranslationIndex;
+let yTranslationIndex;
+let zTranslationIndex;
 
 
 shapeSelection.addEventListener("change", () => {
@@ -69,11 +79,23 @@ yStretchSelection.addEventListener("change", () => {
 zStretchSelection.addEventListener("change", () => {
   zStretchIndex = zStretchSelection.options[zStretchSelection.selectedIndex].value;
 });
+xTranslationSelection.addEventListener("change", () => {
+  xTranslationIndex = xTranslationSelection.options[xTranslationSelection.selectedIndex].value;
+});
+yTranslationSelection.addEventListener("change", () => {
+  yTranslationIndex = yTranslationSelection.options[yTranslationSelection.selectedIndex].value;
+});
+zTranslationSelection.addEventListener("change", () => {
+  zTranslationIndex = zTranslationSelection.options[zTranslationSelection.selectedIndex].value;
+});
 
 function handleCanvas() {
   let controlMenuSize = windowWidth * controlMenuWidth;
   cnv = createCanvas(windowWidth - controlMenuSize, windowHeight, WEBGL);
   cnv.position(controlMenuSize, 0);
+
+  screenHeight= windowHeight;
+  screenWidth= windowWidth;
 }
 
 function setup() {
@@ -81,19 +103,19 @@ function setup() {
   myBLE = new p5ble();
 
   handleCanvas();
-
   shapes = new Shapes();
 
-  background("#FFF");
+  background("#ffff");
 
 }
 
 function draw() {
-  background(250);
+  background(255);
   normalMaterial();
 
   push();
 
+  translateShape();
   rotateShape();
   stretchShape();
   shapes.draw3D();
@@ -211,6 +233,25 @@ class Shapes{
 
   }
 }
+
+function translateShape() {
+
+  let defaultTranslation= 0;
+  
+    if (myBLE.isConnected()) {
+      let xTranslation = sensorArray[xTranslationIndex];
+      let yTranslation = sensorArray[yTranslationIndex];
+      let zTranslation = sensorArray[zTranslationIndex];
+  
+  
+      let mappedXtranslation = mapMyData(xTranslationIndex, xTranslation, defaultTranslation, -((screenWidth/2)+controlMenuWidth) , (screenWidth/2));
+      let mappedYtranslation = mapMyData(yTranslationIndex, yTranslation, defaultTranslation, -(screenHeight/2) , (screenHeight/2));
+      let mappedZtranslation = mapMyData(zTranslationIndex, zTranslation, defaultTranslation, - (screenWidth*2), screenWidth*0.5);
+  
+      translate(mappedXtranslation ,mappedYtranslation, mappedZtranslation);
+  
+    } 
+  }
 
 function stretchShape() {
 

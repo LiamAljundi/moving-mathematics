@@ -19,8 +19,7 @@
 
     <div id="control-menu">
 
-        <div>
-
+        <div class="control-block">
             <h3>select shape</h3>
             <select id="dropdown-3d">
                 <option disabled hidden selected>select</option>
@@ -31,14 +30,16 @@
                 <option value="cone">cone</option>
                 <option value="torus">torus</option>
             </select>
+        </div>
 
 
+        <div class="control-block">
             <h3>rotation</h3>
             <div class="dropdown">
                 <h4>X : </h4>
                 <select id="dropdown-xRotation">
                     <option disabled hidden selected>select</option>
-                    <option value="default">auto rotation</option>
+                    <option>auto</option>
                     <option value=0>gyro x</option>
                     <option value=1>gyro y</option>
                     <option value=2>gyro z</option>
@@ -55,7 +56,7 @@
                 <h4>Y : </h4>
                 <select id="dropdown-yRotation">
                     <option disabled hidden selected>select</option>
-                    <option value="default">auto rotation</option>
+                    <option>auto</option>
                     <option value=0>gyro x</option>
                     <option value=1>gyro y</option>
                     <option value=2>gyro z</option>
@@ -72,59 +73,7 @@
                 <h4>Z : </h4>
                 <select id="dropdown-zRotation">
                     <option disabled hidden selected>select</option>
-                    <option value="default">auto rotation</option>
-                    <option value=0>gyro x</option>
-                    <option value=1>gyro y</option>
-                    <option value=2>gyro z</option>
-                    <option value=3>acceleration x</option>
-                    <option value=4>acceleration y</option>
-                    <option value=5>acceleration z</option>
-                    <option value=6>proximity</option>
-                    <option value=10>light</option>
-
-                </select>
-            </div>
-
-            <h3>Stretch</h3>
-            <div class="dropdown">
-                <h4>X : </h4>
-                <select id="dropdown-xStretch">
-                    <option disabled hidden selected>select</option>
-                    <option value=100>default</option>
-                    <option value=0>gyro x</option>
-                    <option value=1>gyro y</option>
-                    <option value=2>gyro z</option>
-                    <option value=3>acceleration x</option>
-                    <option value=4>acceleration y</option>
-                    <option value=5>acceleration z</option>
-                    <option value=6>proximity</option>
-                    <option value=10>light</option>
-
-                </select>
-            </div>
-
-            <div class="dropdown">
-                <h4>Y: </h4>
-                <select id="dropdown-yStretch">
-                    <option disabled hidden selected>select</option>
-                    <option value=100>default</option>
-                    <option value=0>gyro x</option>
-                    <option value=1>gyro y</option>
-                    <option value=2>gyro z</option>
-                    <option value=3>acceleration x</option>
-                    <option value=4>acceleration y</option>
-                    <option value=5>acceleration z</option>
-                    <option value=6>proximity</option>
-                    <option value=10>light</option>
-
-                </select>
-            </div>
-
-            <div class="dropdown">
-                <h4>Z: </h4>
-                <select id="dropdown-zStretch">
-                    <option disabled hidden selected>select</option>
-                    <option value=100>default</option>
+                    <option>auto</option>
                     <option value=0>gyro x</option>
                     <option value=1>gyro y</option>
                     <option value=2>gyro z</option>
@@ -139,7 +88,175 @@
 
         </div>
 
-        <div id="connect"> 
+        <div class="control-block">
+            <h3>Stretch</h3>
+            <div class="dropdown">
+                <h4>X : </h4>
+                <select id="dropdown-xStretch">
+                    <option disabled hidden selected>select</option>
+                    <option>default</option>
+                    <option value=0>gyro x</option>
+                    <option value=1>gyro y</option>
+                    <option value=2>gyro z</option>
+                    <option value=3>acceleration x</option>
+                    <option value=4>acceleration y</option>
+                    <option value=5>acceleration z</option>
+                    <option value=6>proximity</option>
+                    <option value=10>light</option>
+
+                </select>
+            </div>
+
+            <div class="dropdown">
+                <h4>Y : </h4>
+                <select id="dropdown-yStretch">
+                    <option disabled hidden selected>select</option>
+                    <option>default</option>
+                    <option value=0>gyro x</option>
+                    <option value=1>gyro y</option>
+                    <option value=2>gyro z</option>
+                    <option value=3>acceleration x</option>
+                    <option value=4>acceleration y</option>
+                    <option value=5>acceleration z</option>
+                    <option value=6>proximity</option>
+                    <option value=10>light</option>
+
+                </select>
+            </div>
+
+            <div class="dropdown">
+                <h4>Z : </h4>
+                <select id="dropdown-zStretch">
+                    <option disabled hidden selected>select</option>
+                    <option>default</option>
+                    <option value=0>gyro x</option>
+                    <option value=1>gyro y</option>
+                    <option value=2>gyro z</option>
+                    <option value=3>acceleration x</option>
+                    <option value=4>acceleration y</option>
+                    <option value=5>acceleration z</option>
+                    <option value=6>proximity</option>
+                    <option value=10>light</option>
+
+                </select>
+            </div>
+
+
+
+        </div>
+
+        <div class="control-block">
+
+            <h3>Stretch</h3>
+            <div class="dropdown">
+                <h4>X : </h4>
+                <select id="dropdown-xStretch">
+                    <option disabled hidden selected>select</option>
+                    <option>default</option>
+                    <option value=0>gyro x</option>
+                    <option value=1>gyro y</option>
+                    <option value=2>gyro z</option>
+                    <option value=3>acceleration x</option>
+                    <option value=4>acceleration y</option>
+                    <option value=5>acceleration z</option>
+                    <option value=6>proximity</option>
+                    <option value=10>light</option>
+
+                </select>
+            </div>
+
+            <div class="dropdown">
+                <h4>Y : </h4>
+                <select id="dropdown-yStretch">
+                    <option disabled hidden selected>select</option>
+                    <option>default</option>
+                    <option value=0>gyro x</option>
+                    <option value=1>gyro y</option>
+                    <option value=2>gyro z</option>
+                    <option value=3>acceleration x</option>
+                    <option value=4>acceleration y</option>
+                    <option value=5>acceleration z</option>
+                    <option value=6>proximity</option>
+                    <option value=10>light</option>
+
+                </select>
+            </div>
+
+            <div class="dropdown">
+                <h4>Z : </h4>
+                <select id="dropdown-zStretch">
+                    <option disabled hidden selected>select</option>
+                    <option>default</option>
+                    <option value=0>gyro x</option>
+                    <option value=1>gyro y</option>
+                    <option value=2>gyro z</option>
+                    <option value=3>acceleration x</option>
+                    <option value=4>acceleration y</option>
+                    <option value=5>acceleration z</option>
+                    <option value=6>proximity</option>
+                    <option value=10>light</option>
+
+                </select>
+            </div>
+
+        </div>
+
+        <div class="control-block">
+            <h3>Translate</h3>
+            <div class="dropdown">
+                <h4>X : </h4>
+                <select id="dropdown-xTranslation">
+                    <option disabled hidden selected>select</option>
+                    <option>default</option>
+                    <option value=0>gyro x</option>
+                    <option value=1>gyro y</option>
+                    <option value=2>gyro z</option>
+                    <option value=3>acceleration x</option>
+                    <option value=4>acceleration y</option>
+                    <option value=5>acceleration z</option>
+                    <option value=6>proximity</option>
+                    <option value=10>light</option>
+
+                </select>
+            </div>
+
+            <div class="dropdown">
+                <h4>Y : </h4>
+                <select id="dropdown-yTranslation">
+                    <option disabled hidden selected>select</option>
+                    <option>default</option>
+                    <option value=0>gyro x</option>
+                    <option value=1>gyro y</option>
+                    <option value=2>gyro z</option>
+                    <option value=3>acceleration x</option>
+                    <option value=4>acceleration y</option>
+                    <option value=5>acceleration z</option>
+                    <option value=6>proximity</option>
+                    <option value=10>light</option>
+
+                </select>
+            </div>
+
+            <div class="dropdown">
+                <h4>Z : </h4>
+                <select id="dropdown-zTranslation">
+                    <option disabled hidden selected>select</option>
+                    <option>default</option>
+                    <option value=0>gyro x</option>
+                    <option value=1>gyro y</option>
+                    <option value=2>gyro z</option>
+                    <option value=3>acceleration x</option>
+                    <option value=4>acceleration y</option>
+                    <option value=5>acceleration z</option>
+                    <option value=6>proximity</option>
+                    <option value=10>light</option>
+
+                </select>
+            </div>
+        </div>
+
+
+        <div id="connect">
             <button onclick="connectAndStartNotify()">CONNECT</button>
         </div>
 

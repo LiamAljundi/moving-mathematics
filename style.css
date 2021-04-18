@@ -2,38 +2,84 @@ html,
 body {
   margin: 0;
   padding: 0;
+  overflow: hidden;
+  font-family: "Helvetica Neue", "open-sans";
+
 }
 
 canvas {
   display: block;
 }
 
+select{
+  width: 40%;
+  height:4vh;
+  background-color: #41959B;
+  color: white;
+
+  border-radius: 2;
+
+}
+
+
 h4 {
   display: inline-block;
+  font-size: 2.5vh;
 }
 
 h3 {
+  font-family: "Oswald" ;
   text-transform: uppercase;
+  font-size: 3vh;
+
 }
 
 #control-menu {
-
-  max-width: 23%;
+  margin-top: 1rem;
+  max-width: 21vw;
   height: 100vh;
   padding: 1rem;
 
-
+  overflow: auto;
 
   background-color: #FF9300;
   color: white;
 }
 
-#connect button{
-  padding: 1%; 
+#connect{
+
+  margin: 1.5rem 1.5rem 3rem;
+
+
+
+
+
+}
+
+
+ button{
+  padding: 2%;
+  width: 14vw;
+  height: 10vh;
+  font-size: 1.5vw;
+  border-radius: 2vw;
+
+  background-color: #41959B;
+  color: white;
+  font-weight: 800;
+  border: 1rem #FF7357;
+
 
 
 }
 
 .dropdown {
   line-height: 10%;
+
+}
+.control-block{
+
+  margin: 2rem 1rem 2rem;
+  line-height: 25%;
+
 }
