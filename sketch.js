@@ -24,6 +24,7 @@ let sensorArray = new Array(11);
 let cnv;
 let controlMenuWidth = 25 / 100;
 
+let shapes;
 let selected3D = "box";
 let shapeSelection = document.querySelector("#dropdown-3d");
 
@@ -31,38 +32,42 @@ let xRotationSelection = document.querySelector("#dropdown-xRotation");
 let yRotationSelection = document.querySelector("#dropdown-yRotation");
 let zRotationSelection = document.querySelector("#dropdown-zRotation");
 
-let radiusSelection = document.querySelector("#dropdown-radius");
-let heightSelection = document.querySelector("#dropdown-height");
+let xStretchSelection = document.querySelector("#dropdown-xStretch");
+let yStretchSelection = document.querySelector("#dropdown-yStretch");
+let zStretchSelection = document.querySelector("#dropdown-zStretch");
 
-let xRotationValue = "default";
-let yRotationValue = "default";
-let zRotationValue = "default";
+let xRotationIndex = "default";
+let yRotationIndex = "default";
+let zRotationIndex = "default";
 
-let radiusValue ;
-let heightValue ;
+let xStretchIndex;
+let yStretchIndex;
+let zStretchIndex;
 
-let shapes3D;
 
 shapeSelection.addEventListener("change", () => {
   selected3D = shapeSelection.options[shapeSelection.selectedIndex].value;
 });
 xRotationSelection.addEventListener("change", () => {
-  xRotationValue =
+  xRotationIndex =
     xRotationSelection.options[xRotationSelection.selectedIndex].value;
 });
 yRotationSelection.addEventListener("change", () => {
-  yRotationValue =
+  yRotationIndex =
     yRotationSelection.options[yRotationSelection.selectedIndex].value;
 });
 zRotationSelection.addEventListener("change", () => {
-  zRotationValue =
+  zRotationIndex =
     zRotationSelection.options[zRotationSelection.selectedIndex].value;
 });
-radiusSelection.addEventListener("change", () => {
-  radiusValue = radiusSelection.options[radiusSelection.selectedIndex].value;
+xStretchSelection.addEventListener("change", () => {
+  xStretchIndex = xStretchSelection.options[xStretchSelection.selectedIndex].value;
 });
-heightSelection.addEventListener("change", () => {
-  heightValue = heightSelection.options[heightSelection.selectedIndex].value;
+yStretchSelection.addEventListener("change", () => {
+  yStretchIndex = yStretchSelection.options[yStretchSelection.selectedIndex].value;
+});
+zStretchSelection.addEventListener("change", () => {
+  zStretchIndex = zStretchSelection.options[zStretchSelection.selectedIndex].value;
 });
 
 function handleCanvas() {
@@ -77,11 +82,10 @@ function setup() {
 
   handleCanvas();
 
+  shapes = new Shapes();
+
   background("#FFF");
 
-  /*   // Create a 'Connect and Start Notifications' button
-  const connectButton = createButton("CONNECT");
-  connectButton.mousePressed(connectAndStartNotify); */
 }
 
 function draw() {
@@ -91,7 +95,8 @@ function draw() {
   push();
 
   rotateShape();
-  selectShape();
+  stretchShape();
+  shapes.draw3D();
 
   pop();
 }
@@ -130,13 +135,12 @@ function gotCharacteristics(error, characteristics) {
   // And a callback function to handle notifications
 }
 
-
 function handleGyro(data) {
   //console.log("GYRO: "+abs(gyroValue[0])+ " | "+ abs(gyroValue[1])+" | "+ abs(gyroValue[2]));
   gyroValue = data.split("|");
-  sensorArray[0] = acceValue[0];
-  sensorArray[1] = acceValue[1];
-  sensorArray[2] = acceValue[2];
+  sensorArray[0] = gyroValue[0];
+  sensorArray[1] = gyroValue[1];
+  sensorArray[2] = gyroValue[2];
 }
 
 function handleAcce(data) {
@@ -162,81 +166,96 @@ function handleRgba(data) {
   sensorArray[10] = rgbaValue[3];
 }
 
+function mapMyData(selectedIndex, sensorData, defaultValue, min, max) {
+  let mappedData;
 
-function selectShape() {
-  let mappedRadiusValue;
-  let defaultRadius=100;
-  let defaultHeight= 100;
-
-  if (myBLE.isConnected()) {
-    let radius = sensorArray[radiusValue];
-    let height = sensorArray[heightValue];
-
-    if (radiusValue == "0" || radiusValue == "1" || radiusValue == "2") {
-      mappedRadiusValue = map(radius, -2000, 2000, 10, 500);
-    }else if (radiusValue == "3" || radiusValue == "4" || radiusValue == "5") {
-      mappedRadiusValue = map(radius, -4, 4, 10, 500);
-    }else if (radiusValue == "6" ) {
-      mappedRadiusValue = map(radius, 0, 255, 10, 500);
-    }else if (radiusValue == "10" ) {
-      mappedRadiusValue = map(radius, 0, 4097, 10, 500);
-    } else{
-      mappedRadiusValue= defaultRadius;
-    }
-    console.log(mappedRadiusValue);
-
-    if (selected3D === "box") {
-      box(mappedRadiusValue);
-    } else if (selected3D === "plane") {
-      plane(mappedRadiusValue);
-    } else if (selected3D === "sphere") {
-      sphere(radius);
-    } else if (selected3D === "cone") {
-      cone(radius, height);
-    } else if (selected3D === "cylinder") {
-      cylinder(radius, height);
-    } else if (selected3D === "torus") {
-      torus(radius, height / 4);
-    }
-
+  if (selectedIndex == "0" || selectedIndex == "1" || selectedIndex == "2") {
+    mappedData = map(sensorData, -2000, 2000, min, max);
+  } else if (
+    selectedIndex == "3" ||
+    selectedIndex == "4" ||
+    selectedIndex == "5"
+  ) {
+    mappedData = map(sensorData, -4, 4, min, max);
+  } else if (selectedIndex == "6") {
+    mappedData = map(sensorData, 0, 255, min, max);
+  } else if (selectedIndex == "10") {
+    mappedData = map(sensorData, 0, 4097, min, max);
   } else {
+    mappedData = defaultValue;
+  }
+  return mappedData;
+}
+
+class Shapes{
+  constructor(){
+    this.defaultSize = 100;
+
+  }
+
+  draw3D(){
+
     if (selected3D === "box") {
-      box(defaultRadius);
+      box(this.defaultSize);
     } else if (selected3D === "plane") {
-      plane(defaultRadius);
+      plane(this.defaultSize);
     } else if (selected3D === "sphere") {
-      sphere(defaultRadius);
+      sphere(this.defaultSize);
     } else if (selected3D === "cone") {
-      cone(defaultRadius, defaultHeight);
+      cone(this.defaultSize, this.defaultSize);
     } else if (selected3D === "cylinder") {
-      cylinder(defaultRadius, defaultHeight);
+      cylinder(this.defaultSize, this.defaultSize);
     } else if (selected3D === "torus") {
-      torus(defaultRadius, defaultRadius / 4);
+      torus(this.defaultSize, this.defaultSize / 4);
     }
+
   }
 }
 
+function stretchShape() {
+
+let defaultStretch= 1;
+
+  if (myBLE.isConnected()) {
+    let xStretch = sensorArray[xStretchIndex];
+    let yStretch = sensorArray[yStretchIndex];
+    let zStretch = sensorArray[zStretchIndex];
+
+
+    let mappedXstretch = mapMyData(xStretchIndex, xStretch, defaultStretch, 0.4, 5);
+    let mappedYstretch = mapMyData(yStretchIndex, yStretch, defaultStretch, 0.4, 5);
+    let mappedZstretch = mapMyData(zStretchIndex, zStretch, defaultStretch, 0.4, 5);
+
+    scale(mappedXstretch ,mappedYstretch, mappedZstretch);
+
+  } 
+}
 
 function rotateShape() {
-  if (xRotationValue === "default") {
-    rotateX(frameCount * 0.01);
-  } else {
-    for (let i = 0; i < sensorArray.length; i++) {
-      rotateX(sensorArray[xRotationValue]);
-    }
+
+  let defaultRotation = (frameCount * 0.01);
+
+  if (myBLE.isConnected()) {
+    let xRotation = sensorArray[xRotationIndex];
+    let yRotation = sensorArray[yRotationIndex];
+    let zRotation = sensorArray[zRotationIndex];
+
+    let mappedXrotation = mapMyData(xRotationIndex, xRotation, defaultRotation, 0, (2*PI));
+    let mappedYrotation = mapMyData(yRotationIndex, yRotation, defaultRotation, 0, (2*PI));
+    let mappedZrotation = mapMyData(zRotationIndex, zRotation, defaultRotation, 0, (2*PI));
+
+    rotateX(mappedXrotation);
+    rotateY(mappedYrotation);
+    rotateZ(mappedZrotation);
+
+
+  }else{
+
+      rotateX(defaultRotation);
+      rotateY(defaultRotation);
+      rotateZ(defaultRotation);  
+
   }
-  if (yRotationValue === "default") {
-    rotateY(frameCount * 0.01);
-  } else {
-    for (let i = 0; i < sensorArray.length; i++) {
-      rotateY(sensorArray[yRotationValue]);
-    }
-  }
-  if (zRotationValue === "default") {
-    rotateZ(frameCount * 0.01);
-  } else {
-    for (let i = 0; i < sensorArray.length; i++) {
-      rotateZ(sensorArray[zRotationValue]);
-    }
-  }
+
+
 }
